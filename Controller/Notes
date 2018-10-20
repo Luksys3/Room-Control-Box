@@ -1,0 +1,6 @@
+
+
+AVR Libraries:
+- OLED Display: https://github.com/Sylaina/oled-display
+- NRF24L01: https://github.com/antoineleclair/avr-nrf24l01
+- About SD card: https://www.dharmanitech.com/2009/01/sd-card-interfacing-with-atmega8-fat32.html
