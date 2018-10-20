@@ -30,7 +30,6 @@ const char* SERIAL_PORTS[20] = {
 const int ALIVE_TIMEOUT = 4; // sec
 
 
-#include "libraries/arduino-serial/arduino-serial-lib.h"
 #include "libraries/arduino-serial/arduino-serial-lib.c"
 
 int connect_to_serial();
