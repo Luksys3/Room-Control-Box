@@ -38,4 +38,4 @@ void process_serial_readings(int fd, long int* lastTimeAlive);
 void update_connection_state(int* fd, long int lastTimeAlive);
 void find_open_serial_port(int openPorts[], int* openPortsCount);
 void read_serial(int fd, char* buffer);
-void execute_command(char* command);
+void execute_command(char command[], int fd);

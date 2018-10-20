@@ -45,3 +45,16 @@ bool is_pressed(int pin) {
 void serial_write(String message) {
 	Serial.print(message + SERIAL_MESSAGE_END);
 }
+
+String serial_read() {
+	if (Serial.available() <= 0)
+		return "";
+
+	return Serial.readString();
+}
+
+bool serial_is_empty() {
+	return Serial.available() <= 0
+			? true
+			: false;
+}

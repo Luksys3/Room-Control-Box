@@ -48,7 +48,7 @@ void process_serial_readings(int fd, long int* lastTimeAlive) {
 	}
 
 	printf("Command %ld: %s", time(0), buffer);
-	execute_command(buffer);
+	execute_command(buffer, fd);
 }
 
 void update_connection_state(int* fd, long int lastTimeAlive) {
@@ -116,7 +116,11 @@ void read_serial(int fd, char* buffer) {
 	serialport_read_until(fd, buffer, '\n', SERIAL_BUFFER_MAX - 1, SERIAL_READ_TIMEOUT);
 }
 
-void execute_command(char command[]) {
+void execute_command(char command[], int fd) {
 	if (strncmp(command, "launch_chrome", sizeof "launch_chrome" - 1) == 0)
 		system("google-chrome \"http://youtube.com/results?search_query=c+lang\"");
+	else if (strncmp(command, "BUTTON PRESSED", sizeof "BUTTON PRESSED" - 1) == 0) {
+		printf("COMMAND SENT\n");
+		serialport_write(fd, "testdd");
+	}
 }
