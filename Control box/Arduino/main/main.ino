@@ -1,11 +1,11 @@
 #include "header.h";
 
-int buttonState;
 int lastButtonState = LOW;
 int lastRealButtonState = LOW;
-
 unsigned long lastTimeSentAlive = 0;
 unsigned long lastDebounceTime = 0;
+
+Button buttons[MAX_GPIO_PINS + 1];
 
 void setup() {
 	Serial.begin(9600);
@@ -13,34 +13,33 @@ void setup() {
 	pinMode(BUTTON_PIN, INPUT);
 }
 
-
 void loop() {
-
-	// == Button stuff
-	int reading = digitalRead(BUTTON_PIN);
-
-	if (reading != lastButtonState)
-	lastDebounceTime = millis();
-
-	if ((millis() - lastDebounceTime) > BUTTON_DEBOUNCE_DELAY) {
-		buttonState = reading;
-
-
-		if (buttonState == HIGH && lastRealButtonState == LOW)
-		serial_write("launch_chrome");
-
-		lastRealButtonState = buttonState;
-	}
-
-	lastButtonState = reading;
-	// == #Button stuff
-
+	if (is_pressed(BUTTON_PIN))
+		serial_write("BUTTON PRESSED");
 
 	if ((millis() - lastTimeSentAlive) > SERIAL_ALIVE_DELAY) {
 		lastTimeSentAlive = millis();
 		serial_write(SERIAL_ALIVE_CODE);
 	}
+}
 
+bool is_pressed(int pin) {
+	int pressed = false;
+	int buttonState = digitalRead(pin);
+
+	if (buttonState != buttons[pin].lastButtonState)
+		lastDebounceTime = millis();
+
+	if ((millis() - lastDebounceTime) > BUTTON_DEBOUNCE_DELAY) {
+		if (buttonState == HIGH && buttons[pin].lastRealButtonState == LOW)
+			pressed = true;
+
+		buttons[pin].lastRealButtonState = buttonState;
+	}
+
+	buttons[pin].lastButtonState = buttonState;
+
+	return pressed;
 }
 
 void serial_write(String message) {
