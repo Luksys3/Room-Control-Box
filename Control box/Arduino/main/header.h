@@ -1,4 +1,5 @@
 
+const int SERIAL_BAUD_RATE = 9600;
 const String SERIAL_MESSAGE_END = "\n";
 const String SERIAL_ALIVE_CODE = "7q8w9e";
 const int SERIAL_ALIVE_DELAY = 2000; // msec

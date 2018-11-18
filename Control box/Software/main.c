@@ -120,7 +120,6 @@ void execute_command(char command[], int fd) {
 	if (strncmp(command, "launch_chrome", sizeof "launch_chrome" - 1) == 0)
 		system("google-chrome \"http://youtube.com/results?search_query=c+lang\"");
 	else if (strncmp(command, "BUTTON PRESSED", sizeof "BUTTON PRESSED" - 1) == 0) {
-		printf("COMMAND SENT\n");
 		serialport_write(fd, "testdd");
 	}
 }
