@@ -1,8 +1,11 @@
+#include "libraries/arduino-serial/arduino-serial-lib.c"
 
 const int SERIAL_BAUD_RATE = 9600;
 const int SERIAL_BUFFER_MAX = 256;
 const int SERIAL_READ_TIMEOUT = 1000; // msec
 const int SERIAL_CONNECT_RETRY_INTERVAL = 3000; // msec
+const int SERIAL_MESSAGE_KEY_LENGTH = 10;
+const char SERIAL_MESSAGE_DATA_SPLITTER = '|';
 const char SERIAL_ALIVE_CODE[] = "7q8w9e";
 const char* SERIAL_PORTS[20] = {
 	"/dev/ttyACM0",
@@ -29,13 +32,11 @@ const char* SERIAL_PORTS[20] = {
 
 const int ALIVE_TIMEOUT = 4; // sec
 
-
-#include "libraries/arduino-serial/arduino-serial-lib.c"
-
 int connect_to_serial();
-int serial_port_is_valid(const char* serialPort);
+int serialport_is_valid(const char* serialPort);
 void process_serial_readings(int fd, long int* lastTimeAlive);
 void update_connection_state(int* fd, long int lastTimeAlive);
 void find_open_serial_port(int openPorts[], int* openPortsCount);
 void read_serial(int fd, char* buffer);
 void execute_command(char command[], int fd);
+void serialport_send_message(int fd, int id, char dataString[]);

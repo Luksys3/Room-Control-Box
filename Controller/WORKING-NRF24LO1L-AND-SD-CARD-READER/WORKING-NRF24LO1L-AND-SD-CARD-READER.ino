@@ -17,7 +17,7 @@
 
 SdFat SD;
 
-#define SD_CS_PIN 4
+#define SD_CS_PIN 53
 File myFile;
 
 /****************** User Config ***************************/
@@ -25,14 +25,14 @@ File myFile;
 bool radioNumber = 1;
 
 /* Hardware configuration: Set up nRF24L01 radio on SPI bus plus pins 7 & 8 */
-RF24 radio(9, 10);
+RF24 radio(48, 49);
 /**********************************************************/
 
 byte addresses[][6] = {"1Node","2Node"};
 
-const int SelectSD  = 4;  // pinnenummer brukt for CS til SD-kortet
-const int Radio_CSN = 10; // pinnenummer brukt for CSN på radio (ikke endre denne)
-const int Radio_CE  = 9;  // pinnenummer brukt til CE på radio (kan være uansett ledig pin)
+const int SelectSD  = 53;  // pinnenummer brukt for CS til SD-kortet
+const int Radio_CSN = 49; // pinnenummer brukt for CSN på radio (ikke endre denne)
+const int Radio_CE  = 48;  // pinnenummer brukt til CE på radio (kan være uansett ledig pin)
 
 // Used to control whether this node is sending or receiving
 bool role = 1;
@@ -290,4 +290,3 @@ if (role == 1)  {
 
 
 } // Loop
-

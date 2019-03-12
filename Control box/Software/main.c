@@ -8,6 +8,9 @@ int main() {
 	long int lastTimeAlive;
 	int fd = -1;
 
+	// serialport_send_message(0, 5, "asdsd");
+	// return 0;
+
 	while (1) {
 		// Connection
 		int newConnectionMade = 0;
@@ -67,7 +70,7 @@ int connect_to_serial() {
 	for (int i = 0; i < openPortsCount; i++) {
 
 		printf("Validating port %s...", SERIAL_PORTS[openPorts[i]]);
-		if (serial_port_is_valid(SERIAL_PORTS[openPorts[i]]) == 1) {
+		if (serialport_is_valid(SERIAL_PORTS[openPorts[i]]) == 1) {
 			printf(" valid.\n");
 			return serialport_init(SERIAL_PORTS[openPorts[i]], SERIAL_BAUD_RATE);
 		} else
@@ -94,7 +97,7 @@ void find_open_serial_port(int openPorts[], int* openPortsCount) {
 	}
 }
 
-int serial_port_is_valid(const char* serialPort) {
+int serialport_is_valid(const char* serialPort) {
 	char buffer[SERIAL_BUFFER_MAX], valid = 0;
 	long int started = time(0);
 	int fd = serialport_init(serialPort, SERIAL_BAUD_RATE);
@@ -122,4 +125,21 @@ void execute_command(char command[], int fd) {
 	else if (strncmp(command, "BUTTON PRESSED", sizeof "BUTTON PRESSED" - 1) == 0) {
 		serialport_write(fd, "testdd");
 	}
+}
+
+void serialport_send_message(int fd, int id, char dataString[]) {
+	if (id > 999) {
+		printf("ERR\n");
+		return;
+	}
+
+	char message[256];
+
+	char idStr[4];
+	sprintf(idStr, "%03d", id);
+
+	strcpy(message, idStr);
+	strcat(message, dataString);
+
+	printf("-> %s\n", message);
 }
